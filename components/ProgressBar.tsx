@@ -1,30 +1,28 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getBalance } from "@/utils/solanaUtils";
+import { getUSDTBalance } from "@/utils/solanaUtils";
 
-const RECIPIENT_WALLET = "4azC8sEXgLKZx8bxM56utrxT8Kn15qhPDFdcUrBxEfKU"; // Reemplaza con tu dirección de recaudación
-const GOAL_SOL = 1; // Meta de 1 SOL
+const RECIPIENT_WALLET = "4azC8sEXgLKZx8bxM56utrxT8Kn15qhPDFdcUrBxEfKU"; // Dirección de recaudación en Solana
+const GOAL_USDT = 100; // Meta de 100 USDT
 
 const ProgressBar = () => {
     const [balance, setBalance] = useState<number>(0);
 
-    // Obtener el saldo inicial al cargar la página
     useEffect(() => {
         const fetchBalance = async () => {
-            const currentBalance = await getBalance(RECIPIENT_WALLET);
+            const currentBalance = await getUSDTBalance(RECIPIENT_WALLET);
             setBalance(currentBalance);
         };
 
         fetchBalance();
     }, []);
 
-    // Calcular el porcentaje de la meta alcanzado
-    const progress = Math.min((balance / GOAL_SOL) * 100, 100); // Límite al 100%
+    const progress = Math.min((balance / GOAL_USDT) * 100, 100);
 
     return (
         <div style={{ textAlign: "center", marginTop: "20px" }}>
-            <h2>📊 Recaudación: {balance.toFixed(2)} SOL / {GOAL_SOL} SOL</h2>
+            <h2>📊 Recaudación: {balance.toFixed(2)} USDT / {GOAL_USDT} USDT</h2>
             <div
                 style={{
                     width: "80%",
